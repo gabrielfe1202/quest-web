@@ -15,3 +15,22 @@
   flex-direction: column;
   grid-gap: 10px;
 }
+
+.btn-game{
+  padding: 5px 20px;
+  color: #fff;
+  font-size: 15px;  
+  border-radius: 5px;
+}
+
+.level-check{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  border: 2px solid #6b6b6b;
+}
