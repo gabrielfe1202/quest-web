@@ -34,18 +34,32 @@ function Level() {
   }, []);
 
   function nextQuestion() {
-    if (selectedOption != "") {
-      const quest = questions[currentQuestion];
-      responses.push({
-        question: quest.id,
-        option: selectedOption,
-        user: userId,
-      });
-      console.log(responses);
-      setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption("");
+    if (questions[currentQuestion].type === "multipeOption") {
+      if(selectedOptions.length > 0){
+        selectedOptions.map((item) => {
+          responses.push({
+            question: item,
+            option: selectedOption,
+            user: userId,
+          });  
+        })
+        setCurrentQuestion(currentQuestion + 1);
+        setSelectedOptions([]);
+      }
     } else {
-      alert("escolha uma opção");
+      if (selectedOption != "") {
+        const quest = questions[currentQuestion];
+        responses.push({
+          question: quest.id,
+          option: selectedOption,
+          user: userId,
+        });
+        console.log(responses);
+        setCurrentQuestion(currentQuestion + 1);
+        setSelectedOption("");
+      } else {
+        alert("escolha uma opção");
+      }
     }
   }
 
@@ -66,12 +80,18 @@ function Level() {
     });
   }
 
-  function multipleOptionChange(id: string){
-    if(selectedOptions.filter(x => x == id).length != 0){
-        setSelectedOptions(selectedOptions.filter(x => x != id))
-    }else{
-        selectedOptions.push(id)
-    }     
+  function multipleOptionChange(id: string) {
+    console.log(id)
+    const opts: string[] = []
+    for (var i in selectedOptions) {
+      opts.push(selectedOptions[i])
+    }
+    opts.push(id)
+    if (selectedOptions.filter(x => x == id).length != 0) {
+      setSelectedOptions(selectedOptions.filter(x => x != id))
+    } else {
+      setSelectedOptions(opts)
+    }
   }
 
   if (currentQuestion + 1 <= questions.length) {
@@ -113,16 +133,15 @@ function Level() {
                     )
                     .map((op) => {
                       if (questions[currentQuestion].type === "multipeOption") {
-                        return(
-                            <div
+                        return (
+                          <div
                             onClick={() => {
                               multipleOptionChange(op.id)
                             }}
-                            className={`py-3 px-6 rounded-lg border txt-lg text-white text-center ${
-                                selectedOptions.filter(x => x == op.id).length != 0
-                                ? " border-solid border-2 border-purple-600"
-                                : ""
-                            }`}
+                            className={`py-3 px-6 rounded-lg border txt-lg text-white text-center cursor-pointer ${selectedOptions.filter((x) => x == op.id).length > 0
+                              ? "border-solid border-2 border-purple-600"
+                              : ""
+                              }`}
                           >
                             {op.title}
                           </div>
@@ -133,11 +152,10 @@ function Level() {
                             onClick={() => {
                               setSelectedOption(op.id);
                             }}
-                            className={`py-3 px-6 rounded-lg border txt-lg text-white text-center ${
-                              selectedOption === op.id
-                                ? " border-solid border-2 border-purple-600"
-                                : ""
-                            }`}
+                            className={`py-3 px-6 rounded-lg border txt-lg text-white text-center ${selectedOption === op.id
+                              ? " border-solid border-2 border-purple-600"
+                              : ""
+                              }`}
                           >
                             {op.title}
                           </div>
@@ -154,6 +172,7 @@ function Level() {
                 >
                   Proxima pergunta
                 </button>
+
               </div>
             )}
           </div>

@@ -34,3 +34,55 @@
   font-size: 25px;
   border: 2px solid #6b6b6b;
 }
+
+.listLevelItem:nth-child(odd){
+  margin-right: -100%;
+}
+
+
+.listLevelItem::before{
+  content: '';
+  height: 60px;
+  width: 60px;
+  background: url('/src/assets/pedra.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: -30px;  
+}
+
+.listLevelItem:nth-child(even){  
+  margin-left: -100%;
+}
+
+.listLevelItem:nth-child(odd)::before{    
+  left: -40px;
+}
+
+.listLevelItem:nth-child(even)::before{  
+  right: -30px;
+}
+
+.listLevelItem:first-child::before{  
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  
+.listLevelItem:nth-child(odd){
+  margin-right: auto;
+}
+
+.listLevelItem:nth-child(even){  
+  margin-left: auto;
+}
+
+.listLevelItem:nth-child(odd)::before{    
+  left: 0px;
+}
+
+.listLevelItem:nth-child(even)::before{  
+  right: 0px;
+}
+}
