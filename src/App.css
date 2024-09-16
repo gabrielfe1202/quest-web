@@ -68,6 +68,10 @@
   display: none;
 }
 
+.listLevelItem:last-child{  
+  padding-bottom: 80px;
+}
+
 @media only screen and (max-width: 600px) {
   
 .listLevelItem:nth-child(odd){

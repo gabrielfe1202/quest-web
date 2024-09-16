@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faLock } from '@fortawesome/free-solid-svg-icons';
 import Header from "../components/Header";
+import { useAuth } from "../hooks/useAuth";
 
 class level {
   public completed: boolean;
@@ -16,7 +17,6 @@ class level {
 function Home() {
   const [levels, setLevels] = useState<level[]>([]);
   const [completions, setCompletions] = useState<any[]>([]);
-  const [score, setScore] = useState<number>(0);
   const userId = localStorage.getItem("userId");
   const divRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -24,10 +24,15 @@ function Home() {
   useEffect(() => {
     const div = divRef.current;
 
+    const user = localStorage.getItem('userId');
+    console.log(user)
+    if (user === null) {      
+      navigate("/login")
+    }
+
     httpInstance
-      .get(`/Level/${userId}`) // Altere o endpoint conforme necessário
+      .get(`/Level/${userId}`) 
       .then((response) => {
-        console.log(response.data);
         setLevels(response.data.Levels);
         setCompletions(response.data.Completions);
         if (div) {
@@ -38,15 +43,6 @@ function Home() {
         console.error("Erro ao buscar dados:", error);
       });
 
-    httpInstance
-      .get(`/UserInfo/${userId}`) // Altere o endpoint conforme necessário
-      .then((response) => {
-        console.log(response.data);
-        setScore(response.data.score);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar dados:", error);
-      });
   }, []);
 
   useEffect(() => {
@@ -58,9 +54,11 @@ function Home() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-start flex-col bg-gray-600" style={{
-        background: 'url(https://media.istockphoto.com/id/1354982067/pt/vetorial/sky-starry-black-night-background-with-star-starry-galaxy-space-8bit-texture-in-flat-style.jpg?s=2048x2048&w=is&k=20&c=vN9ifYdhOAeoKoxCNaZpYSvx9s0DBgDCOQ3T9Htys_w=)',
-        backgroundSize: 'cover'
+      <div className="min-h-screen flex items-center justify-start flex-col bg-gray-600" style={{
+        background: "url(/src/assets/sky3.jpg)",
+        backgroundSize: 'cover',
+        backgroundPositionX: 'center',
+        backgroundPositionY: 'top'
       }}>
         <Header />
         <div
@@ -70,7 +68,7 @@ function Home() {
             height: '90vh',
             overflow: "auto",
             width: '100%',
-            margin: 0            
+            margin: 0
           }}>
           <div className="flex flex-col items-center space-y-8 mt-10 listLevel" style={{ height: `90vh` }}>
             {levels.map((item, index) => {
@@ -81,7 +79,7 @@ function Home() {
                     <img
                       src="/src/assets/ilha.png"
                       style={{
-                        filter: 'drop-shadow(0px 0px 85px #fff)'
+                        filter: 'drop-shadow(1px 3px 15px #505050)'
                       }}
                     />
                     <div
