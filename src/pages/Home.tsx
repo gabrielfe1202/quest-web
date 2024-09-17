@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faLock } from '@fortawesome/free-solid-svg-icons';
 import Header from "../components/Header";
-import { useAuth } from "../hooks/useAuth";
 
 class level {
   public completed: boolean;
@@ -16,6 +15,7 @@ class level {
 
 function Home() {
   const [levels, setLevels] = useState<level[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [completions, setCompletions] = useState<any[]>([]);
   const userId = localStorage.getItem("userId");
   const divRef = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ function Home() {
         console.error("Erro ao buscar dados:", error);
       });
 
-  }, []);
+  }, [navigate, userId]);
 
   useEffect(() => {
     const div = divRef.current;
