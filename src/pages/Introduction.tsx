@@ -5,6 +5,7 @@ import YouTube from "react-youtube";
 
 declare global {
   interface Window {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     YT: any;
   }
 }
@@ -32,15 +33,13 @@ export function Introduction() {
       <div
         className="min-h-screen flex items-center justify-start flex-col bg-gray-600"
         style={{
-          background: "url(/src/assets/sky3.jpg)",
+          background: "url(/sky.jpg)",
           backgroundSize: "cover",
           backgroundPositionX: "center",
           backgroundPositionY: "top",
         }}
       >
         <Header />
-
-        <div></div>
 
         <div
           className="flex flex-col mt-12 items-center w-11/12 py-8 bg-gray-700 mb-12 lg:w-8/12"
@@ -71,6 +70,7 @@ export function Introduction() {
           </p>
 
           <div className="w-full px-12 mt-5">
+            {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
             <button
               onClick={() => navigate("/")}
               className="bg-purple-600 px-12 py-3 rounded-lg text-white text-xl font-bold float-end disabled:opacity-65 disabled:cursor-no-drop  "

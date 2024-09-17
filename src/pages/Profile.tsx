@@ -7,6 +7,8 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 export function Profile() {
   const [score, setScore] = useState<number>(0);
   const [ranking, setRanking] = useState<number>(0);
+  const [userName, setUserName] = useState<string>('');
+  const [userEmail, setUserEmail] = useState<string>('');
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -16,6 +18,8 @@ export function Profile() {
         console.log(response.data);
         setScore(response.data.score);
         setRanking(response.data.ranking);
+        setUserName(response.data.userInfos.userName)
+        setUserEmail(response.data.userInfos.userEmail)
       })
       .catch((error) => {
         console.error("Erro ao buscar dados:", error);
@@ -27,15 +31,13 @@ export function Profile() {
       <div
         className="min-h-screen flex items-center justify-start flex-col bg-gray-600"
         style={{
-          background: "url(/src/assets/sky3.jpg)",
+          background: "url(/sky.jpg)",
           backgroundSize: "cover",
           backgroundPositionX: "center",
           backgroundPositionY: "top",
         }}
       >
         <Header />
-
-        <div></div>
 
         <div
           className="flex flex-col mt-12 items-center w-11/12 py-8 bg-gray-700 mb-12 lg:w-8/12"
@@ -50,21 +52,21 @@ export function Profile() {
               <FontAwesomeIcon icon={faUser} style={{ fontSize: 56 }} />
             </div>
             <div className="text-center">
-              <p className="text-white text-xl font-bold">Nome: Gabriel Ferreira</p>
-              <p className="text-white text-xl font-bold">Email: gabriel@o2ew.com.br</p>
+              <p className="text-white text-xl font-bold">Nome: {userName}</p>
+              <p className="text-white text-xl font-bold">Email: {userEmail}</p>
             </div>
             <div className="flex-col sm:flex-row flex gap-6">
               <div className="bg-yellow-200 flex flex-row justify-between p-2 rounded-full">
                 <p className="mx-8 font-bold text-3xl text-amber-500">
                   {ranking}º
                 </p>
-                <img src="/src/assets/trophy.webp" style={{ height: 35 }} />
+                <img src="/src/assets/trophy.webp" style={{ height: 35 }} alt=""/>
               </div>
               <div className="bg-yellow-200 flex flex-row justify-between p-2 rounded-full">
                 <p className="mx-8 font-bold text-3xl text-amber-500">
                   {score}
                 </p>
-                <img src="/src/assets/coin.png" style={{ height: 35 }} />
+                <img src="/src/assets/coin.png" style={{ height: 35 }} alt="" />
               </div>
             </div>
           </div>
