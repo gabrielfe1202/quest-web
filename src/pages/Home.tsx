@@ -8,6 +8,7 @@ import Header from "../components/Header";
 
 class level {
   public completed: boolean;
+  iconImage: string | undefined;
   constructor(public title: string, public order: number, public id: string) {
     this.completed = false;
   }
@@ -77,7 +78,7 @@ function Home() {
                 <>
                   <div style={{ position: "relative", marginTop: 0 }} className="listLevelItem">
                     <img
-                      src="/src/assets/ilha.png"
+                      src={item.iconImage}
                       style={{
                         filter: 'drop-shadow(1px 3px 15px #505050)'
                       }}

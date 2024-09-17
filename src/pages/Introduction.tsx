@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import YouTube from "react-youtube";
 
 declare global {
   interface Window {
@@ -11,39 +12,20 @@ declare global {
 export function Introduction() {
   const navigate = useNavigate();
   const [isButtonVisible, setIsButtonVisible] = useState(false);
-  const playerRef = useRef<any>(null);
 
-  useEffect(() => {
-    const onPlayerStateChange = (event) => {
-      if (event.data === window.YT.PlayerState.ENDED) {
-        // Vídeo terminou, mostra o botão
-        setIsButtonVisible(true);
-      }
-    };
+  const onPlayerStateChange = (event: { data: unknown }) => {
+    if (event.data === window.YT.PlayerState.ENDED) {      
+      setIsButtonVisible(true);
+    }
+  };
 
-    const onYouTubeIframeAPIReady = () => {
-      playerRef.current = new window.YT.Player("player", {
-        height: "390",
-        width: "640",
-        videoId: "P39f0_aYv-Y", // Substitua com o ID do seu vídeo
-        events: {
-          onStateChange: onPlayerStateChange,
-        },
-      });
-    };
-
-    const script = document.createElement("script");
-    script.src = "https://www.youtube.com/iframe_api";
-    script.onload = () => {
-      onYouTubeIframeAPIReady();
-    };
-    document.body.appendChild(script);
-
-    // Limpeza: remove o script do YouTube quando o componente é desmontado
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []); 
+  const opts = {
+    height: "390",
+    width: "640",
+    playerVars: {
+      autoplay: 0,
+    },
+  };
 
   return (
     <>
@@ -61,12 +43,16 @@ export function Introduction() {
         <div></div>
 
         <div
-          className="flex flex-col mt-12 items-center w-11/12 p-4 bg-gray-700 mb-12 lg:w-8/12"
+          className="flex flex-col mt-12 items-center w-11/12 py-8 bg-gray-700 mb-12 lg:w-8/12"
           style={{
             minHeight: "70vh",
           }}
         >
-          <div id="player"></div>
+          <YouTube
+            videoId="P39f0_aYv-Y"
+            opts={opts}
+            onStateChange={onPlayerStateChange}
+          />
 
           <p className="text-white text-left font-bold w-full text-3xl mt-10 px-12">
             Lorem ipsum dolor
@@ -84,16 +70,15 @@ export function Introduction() {
             Itaque architecto iusto, quaerat et quidem praesentium a maiores!
           </p>
 
-          {isButtonVisible && (
-            <div className="w-full px-12 mt-5">
-              <button
-                onClick={() => navigate("/")}
-                className="bg-purple-600 px-12 py-3 rounded-lg text-white text-xl font-bold float-end"
-              >
-                Começar
-              </button>
-            </div>
-          )}
+          <div className="w-full px-12 mt-5">
+            <button
+              onClick={() => navigate("/")}
+              className="bg-purple-600 px-12 py-3 rounded-lg text-white text-xl font-bold float-end disabled:opacity-65 disabled:cursor-no-drop  "
+              disabled={!isButtonVisible}
+            >
+              Começar
+            </button>
+          </div>
         </div>
       </div>
     </>

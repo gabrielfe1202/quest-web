@@ -79,7 +79,7 @@ function Header() {
               <div className="absolute right-0 mt-5 w-48 border-0 rounded-md shadow-lg z-20 bg-gray-800 text-white">
                 <div className="py-2">
                   <button
-                    onClick={() => {}}
+                    onClick={() => navigate('/Profile')}
                     className="block px-4 py-2 w-full text-white border-white"
                     style={{ borderBottom: "1px solid #fff" }}
                   >
