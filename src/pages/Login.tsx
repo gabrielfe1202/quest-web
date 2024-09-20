@@ -9,7 +9,7 @@ function Login() {
 
   const handleLogin = () => {
     httpInstance
-      .post(`/Login`, {
+      .post('/Login', {
         email: email,
         password: password,
       })
